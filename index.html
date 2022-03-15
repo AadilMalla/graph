@@ -1,0 +1,179 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@AadilMalla 
+harshadvict
+/
+absPlotlyGraph
+Public
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+absPlotlyGraph/index.html
+@harshadvict
+harshadvict height fixed
+Latest commit 8e402a8 on 23 Jul 2021
+ History
+ 1 contributor
+138 lines (131 sloc)  4.23 KB
+   
+<html>
+
+<head>
+    <script src='https://cdn.plot.ly/plotly-2.2.0.min.js'></script>
+</head>
+
+<body>
+    <div>
+        <div id="myChart">
+        </div>
+    </div>
+    <script>
+        console.log(window.location.href, 'location');
+
+        var config = JSON.parse(decodeURI(window.location.href.split('?')[1].split('&')[0].split('=')[1]));
+        console.log(config, 'config');
+        var layout;
+        if (config.graphType === "HeatMap") {
+            layout = {
+                dragmode:false,
+                autosize: false,
+                width:350,
+                height:500,
+                title: config.graphTitle,
+                annotations: [],
+                xaxis: {
+                    automargin: true,
+                    autotick: false,
+                    ticks: 'outside',
+                    side: 'down',
+                    ticklen: 2,
+                    tickwidth: 4,
+
+                    tickfont: {
+                        size: 10,
+                        color: '#000000',
+                    },
+                    tickangle: 90,
+                    gridcolor:'#636262'
+
+                },
+                yaxis: {
+                    automargin: true,
+                    autotick: false,
+                    ticks: 'outside',           
+                    ticklen: 2,
+                    tickwidth: 4,
+                    tickfont: {
+                        size: 10,
+                        color: '#000000',
+                    },
+                    tickangle: 90,
+                    gridcolor:'#636262'
+                },
+                paper_bgcolor: "rgba(0,0,0,0)",
+                plot_bgcolor:"rgba(0,0,0,0)",
+                margin: {
+                        l: 14,
+                        r: 10,
+                        b: 10,
+                        t: 40,
+                        pad: 2
+                    },
+            };
+
+            for (var i = 0; i < config.data[0].y.length; i++) {
+                for (var j = 0; j < config.data[0].x.length; j++) {
+                    var currentValue = config.data[0].z[i][j];
+                    if (currentValue != 0.0) {
+                        var textColor = 'black';
+                    } else {
+                        var textColor = 'black';
+                    }
+                    var result = {
+                        xref: 'x1',
+                        yref: 'y1',
+                        x: config.data[0].x[j],
+                        y: config.data[0].y[i],
+                        text: config.data[0].z[i][j],
+                        font: {
+                            //family: 'Arial',
+                            size: 10,
+                            //color: 'rgb(50, 171, 96)'
+                        },
+                        showarrow: false,
+                        font: {
+                            color: textColor
+                        }
+                    };
+                    //console.log(result)
+                    layout.annotations.push(result);
+                }
+            }
+        } else {
+            layout = {
+                dragmode:false,
+                autosize: false,
+                width:350,
+                height:400,
+                title: config.graphTitle,
+                showlegend: false,
+                paper_bgcolor: "rgba(0,0,0,0)",
+                plot_bgcolor:"rgba(0,0,0,0)",
+                margin: {
+                        l: 14,
+                        r: 10,
+                        b: 5,
+                        t: 40,
+                        pad: 2
+                 },
+                xaxis:{
+                    autotick: false,
+                    automargin: true,
+                    gridcolor:'#ababab',
+                    tickfont: {
+                        size: 10,
+                        color: '#000000',
+                    },
+                    tickangle: 90,
+                },
+                yaxis:{
+                    autotick: false,
+                    tickfont: {
+                        size: 10,
+                        color: '#000000',
+                    },
+                    automargin: true,
+                    gridcolor:'#ababab',
+                }
+            };
+        }
+        Plotly.newPlot('myChart', config.data, layout, {
+            displayModeBar: false
+        });
+    </script>
+</body>
+
+</html>
+© 2022 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+Loading complete
